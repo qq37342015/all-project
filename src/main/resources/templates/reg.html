@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/webjars/jquery/3.3.1-1/jquery.js}"></script>
+
+</head>
+<body>
+    <form th:action="@{/user/reg}" method="post">
+        账号：<input id="username" name="username"><span id="s1"></span><br>
+        密码：<input id="password" name="password"><span id="s2"></span><br>
+        重复密码：<input id="repassword" name="repassword"><span id="s3"></span><br>
+        <input type="submit" value="注册">
+
+    </form>
+</body>
+<script>
+    $("#username").blur(function(){
+        $.ajax({
+            url:"/user/yz",
+            type:"post",
+            data:"username="+$(this).val(),
+            success:function(dd){
+                if(dd!="0"){
+                    $("#s1").text("账号已存在");
+                }else{
+                    $("#s1").text("账号可以使用");
+                }
+            }
+        });
+    });
+
+</script>
+</html>

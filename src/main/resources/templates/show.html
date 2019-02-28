@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/empl/findAll}" method="post">
+    <input name="ename" th:value="${ename}">
+    <input type="submit" value="搜索">
+
+</form>
+<a th:href="@{/empl/toAdd}">添加</a>
+<table border="1" >
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>生日</th>
+        <th>部门</th>
+        <th>图片</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="empl:${pages}">
+        <th th:text="${empl.eid}">编号</th>
+        <th th:text="${empl.ename}">姓名</th>
+        <th th:text="${empl.gender}">性别</th>
+        <th th:text="${#dates.format(empl.birth,'yyyy-MM-dd')}">生日</th>
+        <th th:text="${empl.dept.dname}">部门</th>
+        <th ><img width="100px" height="100px" th:src="@{../}+${empl.file}"></th>
+        <th>
+            <a th:href="@{/empl/preUpdate/}+${empl.eid}">修改</a>
+            <a th:href="@{/empl/del/}+${empl.eid}">删除</a>
+        </th>
+    </tr>
+
+    </tbody>
+</table>
+<a th:href="@{/empl/findAll(ename=${ename})}">首页</a>
+<a th:if="${not pages.isFirst()}" th:href="@{/empl/findAll(page=${pages.number}-1 ,ename=${ename})}">上一页</a>
+<a th:if="${not pages.isLast()}" th:href="@{/empl/findAll(page=${pages.number}+1,ename=${ename})}">下一页</a>
+<a th:href="@{/empl/findAll(page=${pages.totalPages}-1,ename=${ename})}">尾页</a>
+
+<span th:text="${pages.number}+1"></span>/
+<span th:text="${pages.totalPages}"></span>
+
+</body>
+</html>
